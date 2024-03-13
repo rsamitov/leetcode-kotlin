@@ -28,8 +28,24 @@ class `290_WordPattern` {
 
     class Solution {
         fun wordPattern(pattern: String, s: String): Boolean {
-            for (word in s.splitToSequence(' ')) {
-                println(word)
+            val words = s.split(' ')
+
+            if (pattern.length != words.size) {
+                return false
+            }
+
+            val patternToWord = hashMapOf<Char, String>()
+            val wordToPattern = hashMapOf<String, Char>()
+            for ((i, word) in words.withIndex()) {
+
+                if (!patternToWord.contains(pattern[i]) &&
+                    !wordToPattern.contains(word)) {
+                    patternToWord[pattern[i]] = word
+                    wordToPattern[word] = pattern[i]
+                } else if (patternToWord[pattern[i]] != word ||
+                    wordToPattern[word] != pattern[i]) {
+                    return false
+                }
             }
             return true
         }
